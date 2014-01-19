@@ -9,7 +9,7 @@ def handle_ratelimit(func, *args, **kwargs):
         try:
             func(*args, **kwargs)
             break
-        except reddit.errors.RateLimitExceeded as error:
+        except praw.errors.RateLimitExceeded as error:
             print('\tSleeping for %d seconds' % error.sleep_time)
             time.sleep(error.sleep_time)
 
