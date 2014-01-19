@@ -2,6 +2,8 @@
 
 import praw, sys, time
 
+reddit = praw.Reddit('Noice Correction Bot by /u/5paceManSpiff')
+
 def handle_ratelimit(func, *args, **kwargs):
     while True:
         try:
@@ -12,17 +14,21 @@ def handle_ratelimit(func, *args, **kwargs):
             time.sleep(error.sleep_time)
 
 def main():
-    r = praw.Reddit('Noice Correction Bot by /u/5paceManSpiff')
-    r.login('noice_bot', '[insert password here]')
-    all_comments = [x for x in r.get_comments('all')]
+    reddit.login('noice_bot', '[insert password here]')
+    all_comments = [x for x in reddit.get_comments('all')]
 
     replies = 0
     already_done = set()
     for comment in all_comments:
-        if 'nice' in comment.body and comment.id not in already_done:
-            handle_ratelimit(comment.reply, '*noice')
-            replies += 1
-            already_done.add(comment.id)
+        if comment.id not in already_done:
+            if 'nice' in comment.body:
+                handle_ratelimit(comment.reply, 'noice m8')
+                replies += 1
+                already_done.add(comment.id)
+            elif 'What?' in comment.body or 'what?' in comment.body:
+                handle_ratelimit(comment.reply, 'u wot m8?')
+                replies += 1
+                already_done.add(comment.id)
 
     print(str(replies))
 
