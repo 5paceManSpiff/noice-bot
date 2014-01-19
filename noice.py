@@ -14,7 +14,11 @@ def handle_ratelimit(func, *args, **kwargs):
             time.sleep(error.sleep_time)
 
 def main():
-    reddit.login('noice_bot', '[insert password here]')
+    if len(sys.argv) < 3:
+        print('No username or password found')
+        return
+
+    reddit.login(sys.argv[1], sys.argv[2])
     all_comments = [x for x in reddit.get_comments('all')]
 
     replies = 0
