@@ -25,7 +25,7 @@ def main():
     already_done = set()
     for comment in all_comments:
         if comment.id not in already_done:
-            if 'Nice' in comment.body or 'nice' in comment.body:
+            if comment.body == 'Nice' or comment.body == 'nice':
                 handle_ratelimit(comment.reply, 'noice m8')
                 replies += 1
                 already_done.add(comment.id)
@@ -34,7 +34,11 @@ def main():
                 replies += 1
                 already_done.add(comment.id)
 
-    print(str(replies))
+    print('Replies : %d' % replies)
 
 if __name__ == '__main__':
-    sys.exit(main())
+    while True:
+        print('Starting comment crawl')
+        main()
+        print('Sleeping for a minute')
+        time.sleep(60)
